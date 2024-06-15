@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Cwiczenia10.Migrations
+namespace Cwiczenia11.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
     partial class HospitalDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,41 @@ namespace Cwiczenia10.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Cwiczenia10.Entities.Doctor", b =>
+            modelBuilder.Entity("Cwiczenia11.Entities.AppUserEntities.AppUser", b =>
+                {
+                    b.Property<int>("IdAppUser")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAppUser"));
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExp")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdAppUser")
+                        .HasName("AppUser_pk");
+
+                    b.ToTable("AppUser", (string)null);
+                });
+
+            modelBuilder.Entity("Cwiczenia11.Entities.HospitalEntities.Doctor", b =>
                 {
                     b.Property<int>("IdDoctor")
                         .HasColumnType("int");
@@ -45,7 +79,7 @@ namespace Cwiczenia10.Migrations
                     b.ToTable("Doctor", (string)null);
                 });
 
-            modelBuilder.Entity("Cwiczenia10.Entities.Medicament", b =>
+            modelBuilder.Entity("Cwiczenia11.Entities.HospitalEntities.Medicament", b =>
                 {
                     b.Property<int>("IdMedicament")
                         .ValueGeneratedOnAdd()
@@ -71,7 +105,7 @@ namespace Cwiczenia10.Migrations
                     b.ToTable("Medicament", (string)null);
                 });
 
-            modelBuilder.Entity("Cwiczenia10.Entities.Patient", b =>
+            modelBuilder.Entity("Cwiczenia11.Entities.HospitalEntities.Patient", b =>
                 {
                     b.Property<int>("IdPatient")
                         .HasColumnType("int");
@@ -93,7 +127,7 @@ namespace Cwiczenia10.Migrations
                     b.ToTable("Patient", (string)null);
                 });
 
-            modelBuilder.Entity("Cwiczenia10.Entities.Prescription", b =>
+            modelBuilder.Entity("Cwiczenia11.Entities.HospitalEntities.Prescription", b =>
                 {
                     b.Property<int>("IdPrescription")
                         .ValueGeneratedOnAdd()
@@ -121,7 +155,7 @@ namespace Cwiczenia10.Migrations
                     b.ToTable("Prescription", (string)null);
                 });
 
-            modelBuilder.Entity("Cwiczenia10.Entities.PrescriptionMedicament", b =>
+            modelBuilder.Entity("Cwiczenia11.Entities.HospitalEntities.PrescriptionMedicament", b =>
                 {
                     b.Property<int>("IdMedicament")
                         .HasColumnType("int");
@@ -144,16 +178,16 @@ namespace Cwiczenia10.Migrations
                     b.ToTable("Prescription_Medicament", (string)null);
                 });
 
-            modelBuilder.Entity("Cwiczenia10.Entities.Prescription", b =>
+            modelBuilder.Entity("Cwiczenia11.Entities.HospitalEntities.Prescription", b =>
                 {
-                    b.HasOne("Cwiczenia10.Entities.Doctor", "Doctor")
+                    b.HasOne("Cwiczenia11.Entities.HospitalEntities.Doctor", "Doctor")
                         .WithMany("Prescriptions")
                         .HasForeignKey("IdDoctor")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("Prescription_Doctor");
 
-                    b.HasOne("Cwiczenia10.Entities.Patient", "Patient")
+                    b.HasOne("Cwiczenia11.Entities.HospitalEntities.Patient", "Patient")
                         .WithMany("Prescriptions")
                         .HasForeignKey("IdPrescription")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -165,16 +199,16 @@ namespace Cwiczenia10.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("Cwiczenia10.Entities.PrescriptionMedicament", b =>
+            modelBuilder.Entity("Cwiczenia11.Entities.HospitalEntities.PrescriptionMedicament", b =>
                 {
-                    b.HasOne("Cwiczenia10.Entities.Medicament", "Medicament")
+                    b.HasOne("Cwiczenia11.Entities.HospitalEntities.Medicament", "Medicament")
                         .WithMany("PrescriptionMedicaments")
                         .HasForeignKey("IdMedicament")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("PrescriptionMedicament_Medicament");
 
-                    b.HasOne("Cwiczenia10.Entities.Prescription", "Prescription")
+                    b.HasOne("Cwiczenia11.Entities.HospitalEntities.Prescription", "Prescription")
                         .WithMany("PrescriptionMedicaments")
                         .HasForeignKey("IdPrescription")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -186,22 +220,22 @@ namespace Cwiczenia10.Migrations
                     b.Navigation("Prescription");
                 });
 
-            modelBuilder.Entity("Cwiczenia10.Entities.Doctor", b =>
+            modelBuilder.Entity("Cwiczenia11.Entities.HospitalEntities.Doctor", b =>
                 {
                     b.Navigation("Prescriptions");
                 });
 
-            modelBuilder.Entity("Cwiczenia10.Entities.Medicament", b =>
+            modelBuilder.Entity("Cwiczenia11.Entities.HospitalEntities.Medicament", b =>
                 {
                     b.Navigation("PrescriptionMedicaments");
                 });
 
-            modelBuilder.Entity("Cwiczenia10.Entities.Patient", b =>
+            modelBuilder.Entity("Cwiczenia11.Entities.HospitalEntities.Patient", b =>
                 {
                     b.Navigation("Prescriptions");
                 });
 
-            modelBuilder.Entity("Cwiczenia10.Entities.Prescription", b =>
+            modelBuilder.Entity("Cwiczenia11.Entities.HospitalEntities.Prescription", b =>
                 {
                     b.Navigation("PrescriptionMedicaments");
                 });

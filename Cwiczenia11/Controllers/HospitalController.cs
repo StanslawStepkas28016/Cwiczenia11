@@ -17,8 +17,8 @@ public class HospitalController : ControllerBase
         _hospitalService = hospitalService;
     }
 
-    [HttpPut("AddPatientWithPrescription")]
     [Authorize]
+    [HttpPut("AddPatientWithPrescription")]
     public async Task<IActionResult> AddPatientWithPrescription(PatientPrescriptionDto patientPrescriptionDto,
         CancellationToken cancellationToken)
     {
@@ -42,8 +42,8 @@ public class HospitalController : ControllerBase
         return Ok("Prescription successfully added");
     }
 
-    [HttpGet("GetPatientAllData")]
     [Authorize]
+    [HttpGet("GetPatientAllData")]
     public async Task<IActionResult> GetPatientAllData(int idPatient, CancellationToken cancellationToken)
     {
         var res = await _hospitalService.GetPatientAllData(idPatient, cancellationToken);

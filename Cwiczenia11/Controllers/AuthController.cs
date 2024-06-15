@@ -17,7 +17,7 @@ public class AuthController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("register")]
+    [HttpPost("Register")]
     public async Task<IActionResult> Register(RegisterRequestDto registerRequestDto,
         CancellationToken cancellationToken)
     {
@@ -40,7 +40,7 @@ public class AuthController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("login")]
+    [HttpPost("Login")]
     public async Task<IActionResult> Login(LoginRequestDto loginRequestDto, CancellationToken cancellationToken)
     {
         try
@@ -67,7 +67,7 @@ public class AuthController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("refresh")]
+    [HttpPost("Refresh")]
     public async Task<IActionResult> RefreshAppUserToken(RefreshTokenRequestDto tokenRequestRequest,
         CancellationToken cancellationToken)
     {
