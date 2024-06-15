@@ -1,0 +1,14 @@
+Code First.
+1. Odwzorowujemy klasy z bazy (pola + asocjacje) w katalogu "Entities".
+1.1. Asocjację modelujemy przez "public virtual ICollection<Type> col = new List<Type>()";
+1.2. Można też zamodelować klasę asocjacyjną (z dodatkowymi polami, też kolekcje jak w 1.1).
+2. Tworzymy MyDbContext : DbContext, tworzymy obiekty typu DbSet (tyle ile mam). 
+
+dotnet new tool-manifest (instalacja dotneta w projekcie)
+dotnet tool install dotnet-ef (instalacja dotneta w projekcie 2)
+
+dotnet ef migrations add NAME (dodanie migracji)
+dotnet ef database update (do przeniesienia migracji na baze)
+dotnet ef migrations remove (wycofanie transakcji)
+
+jwt.io
