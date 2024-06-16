@@ -17,7 +17,7 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
-    ///     Endpoint used for registering a user, based on their e-mail and password. A user cannot use an already taken login,
+    ///     Endpoint used for registering a user, based on their login and password. A user cannot use an already taken login,
     ///     thus there is being validation preventing this from happening. 
     /// </summary>
     /// <param name="registerRequestDto"></param>
