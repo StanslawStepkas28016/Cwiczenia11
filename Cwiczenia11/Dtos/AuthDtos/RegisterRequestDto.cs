@@ -1,4 +1,4 @@
-namespace Cwiczenia11.ModelsDtos.AuthDtos;
+namespace Cwiczenia11.Dtos.AuthDtos;
 
 public class RegisterRequestDto
 {

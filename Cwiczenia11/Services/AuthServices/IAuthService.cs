@@ -1,4 +1,4 @@
-using Cwiczenia11.ModelsDtos.AuthDtos;
+using Cwiczenia11.Dtos.AuthDtos;
 
 namespace Cwiczenia11.Services.AuthServices;
 

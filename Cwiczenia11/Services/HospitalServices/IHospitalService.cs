@@ -1,4 +1,4 @@
-using Cwiczenia11.ModelsDtos.HospitalDtos;
+using Cwiczenia11.Dtos.HospitalDtos;
 
 namespace Cwiczenia11.Services.HospitalServices;
 

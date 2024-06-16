@@ -1,4 +1,4 @@
-namespace Cwiczenia11.ModelsDtos.HospitalDtos;
+namespace Cwiczenia11.Dtos.HospitalDtos;
 
 public class DoctorDto
 {

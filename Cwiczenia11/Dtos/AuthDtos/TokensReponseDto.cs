@@ -1,10 +1,8 @@
-namespace Cwiczenia11.ModelsDtos.AuthDtos;
+namespace Cwiczenia11.Dtos.AuthDtos;
 
 public class TokensReponseDto
 {
     public string AccessToken { get; set; }
 
     public string RefreshToken { get; set; }
-
-    public int StatusCode { get; set; }
 }

@@ -1,4 +1,4 @@
-using Cwiczenia11.ModelsDtos.AuthDtos;
+using Cwiczenia11.Dtos.AuthDtos;
 using Cwiczenia11.Services.AuthServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,81 +16,50 @@ public class AuthController : ControllerBase
         _service = service;
     }
 
+    /// <summary>
+    ///     Endpoint used for registering a user, based on their e-mail and password. A user cannot use an already taken login,
+    ///     thus there is being validation preventing this from happening. 
+    /// </summary>
+    /// <param name="registerRequestDto"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [AllowAnonymous]
-    [HttpPost("Register")]
+    [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequestDto registerRequestDto,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var res = await _service.Register(registerRequestDto, cancellationToken);
-
-            if (res == -1)
-            {
-                return Conflict("User with the specified login already exist!");
-            }
-
-            return Ok("Registered!");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        await _service.Register(registerRequestDto, cancellationToken);
+        return Ok("Successfully registered!");
     }
 
+    /// <summary>
+    ///     Endpoint used for logging in a user of the application.
+    ///     Input data is being validated (if the user exists and if its password is right).
+    /// </summary>
+    /// <param name="loginRequestDto"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [AllowAnonymous]
-    [HttpPost("Login")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequestDto loginRequestDto, CancellationToken cancellationToken)
     {
-        try
-        {
-            var res = await _service.Login(loginRequestDto, cancellationToken);
-
-            if (res.StatusCode == -1)
-            {
-                return BadRequest("User with the specified login does not exist!");
-            }
-
-            if (res.StatusCode == -2)
-            {
-                return Unauthorized("Provided password is wrong!");
-            }
-
-            return Ok(res);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        var res = await _service.Login(loginRequestDto, cancellationToken);
+        return Ok(res);
     }
 
+    /// <summary>
+    ///     Endpoint used for refreshing a user refreshToken. Based on the provided refreshToken.
+    ///     This endpoint will prevent refreshing token if it has already expired or is non-existent.
+    /// </summary>
+    /// <param name="tokenRequestRequest"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [Authorize]
-    [HttpPost("Refresh")]
+    [HttpPost("refresh")]
     public async Task<IActionResult> RefreshAppUserToken(RefreshTokenRequestDto tokenRequestRequest,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var res = await _service.RefreshAppUserToken(tokenRequestRequest, cancellationToken);
-
-            if (res.StatusCode == -1)
-            {
-                return NotFound("Incorrect refresh token!");
-            }
-
-            if (res.StatusCode == -2)
-            {
-                return NotFound("Refresh token has already expired, login again!");
-            }
-
-            return Ok(res);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        var res = await _service.RefreshAppUserToken(tokenRequestRequest, cancellationToken);
+        return Ok(res);
     }
 }

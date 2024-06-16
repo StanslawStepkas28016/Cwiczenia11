@@ -275,3 +275,5 @@
 /Users/stanislawstepka/Desktop/DYSK M/UCZELNIA/4 SEM/APBD/CW 11/Cwiczenia11/Cwiczenia11/obj/Debug/net8.0/Cwiczenia11.genruntimeconfig.cache
 /Users/stanislawstepka/Desktop/DYSK M/UCZELNIA/4 SEM/APBD/CW 11/Cwiczenia11/Cwiczenia11/obj/Debug/net8.0/ref/Cwiczenia11.dll
 /Users/stanislawstepka/Desktop/DYSK M/UCZELNIA/4 SEM/APBD/CW 11/Cwiczenia11/Cwiczenia11/obj/Debug/net8.0/Cwiczenia11.sourcelink.json
+/Users/stanislawstepka/Desktop/DYSK M/UCZELNIA/4 SEM/APBD/CW 11/Cwiczenia11/Cwiczenia11/bin/Debug/net8.0/Cwiczenia11.xml
+/Users/stanislawstepka/Desktop/DYSK M/UCZELNIA/4 SEM/APBD/CW 11/Cwiczenia11/Cwiczenia11/obj/Debug/net8.0/Cwiczenia11.xml

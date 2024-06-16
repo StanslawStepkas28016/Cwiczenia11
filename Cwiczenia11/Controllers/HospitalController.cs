@@ -1,5 +1,4 @@
-using Cwiczenia11.ModelsDtos.HospitalDtos;
-using Cwiczenia11.Services;
+using Cwiczenia11.Dtos.HospitalDtos;
 using Cwiczenia11.Services.HospitalServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,42 +16,33 @@ public class HospitalController : ControllerBase
         _hospitalService = hospitalService;
     }
 
+    /// <summary>
+    ///     Endpoint used for adding a patient (if the patient does not exist, it is being created withing the endpoint logic)
+    ///     and its associated prescription data. 
+    /// </summary>
+    /// <param name="patientPrescriptionDto"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [Authorize]
-    [HttpPut("AddPatientWithPrescription")]
+    [HttpPut("addPatientWithPrescription")]
     public async Task<IActionResult> AddPatientWithPrescription(PatientPrescriptionDto patientPrescriptionDto,
         CancellationToken cancellationToken)
     {
-        var res = await _hospitalService.AddPatientWithPrescription(patientPrescriptionDto, cancellationToken);
-
-        if (res == -1)
-        {
-            return NotFound("Medicaments cannot be longer than 10!");
-        }
-
-        if (res == -2)
-        {
-            return NotFound("At least one of the Medicaments provided do not exist!");
-        }
-
-        if (res == -3)
-        {
-            return NotFound("DueDate has to be larger or equal to Date!");
-        }
-
+        await _hospitalService.AddPatientWithPrescription(patientPrescriptionDto, cancellationToken);
         return Ok("Prescription successfully added");
     }
 
+    /// <summary>
+    ///     Endpoint used for retrieving every data in the context, that is associated with the patient.
+    /// </summary>
+    /// <param name="idPatient"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [Authorize]
-    [HttpGet("GetPatientAllData")]
+    [HttpGet("getPatientAllData/{idPatient:int}")]
     public async Task<IActionResult> GetPatientAllData(int idPatient, CancellationToken cancellationToken)
     {
         var res = await _hospitalService.GetPatientAllData(idPatient, cancellationToken);
-
-        if (res.PatientDto.IdPatient == -1)
-        {
-            return NotFound("Patient with provided Id does not exist!");
-        }
-
         return Ok(res);
     }
 }

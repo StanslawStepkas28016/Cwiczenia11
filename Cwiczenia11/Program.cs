@@ -1,17 +1,14 @@
-using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using System.Text;
 using Cwiczenia11.Entities;
 using Cwiczenia11.Middlewares;
-using Cwiczenia11.Repositories;
-using Cwiczenia11.Repositories.AuthRepositories;
-using Cwiczenia11.Repositories.HospitalRepositories;
-using Cwiczenia11.Services;
-using Cwiczenia11.Services.AuthServices;
 using Cwiczenia11.Services.HospitalServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using AuthService = Cwiczenia11.Services.AuthServices.AuthService;
+using IAuthService = Cwiczenia11.Services.AuthServices.IAuthService;
 
 namespace Cwiczenia11;
 
@@ -24,10 +21,22 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddControllers();
-        builder.Services.AddScoped<IHospitalRepository, HospitalRepository>();
         builder.Services.AddScoped<IHospitalService, HospitalService>();
-        builder.Services.AddScoped<IAuthRepository, AuthRepository>();
         builder.Services.AddScoped<IAuthService, AuthService>();
+
+        builder.Services.AddSwaggerGen(ctx =>
+        {
+            ctx.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Cwiczenia11",
+                Version = "v1",
+                Description = "Project used for working with a hospital database with additional " +
+                              "user authentication and application user management."
+            });
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            ctx.IncludeXmlComments(xmlPath);
+        });
 
         builder.Services.AddAuthentication(options =>
         {

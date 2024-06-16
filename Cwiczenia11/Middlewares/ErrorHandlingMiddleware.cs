@@ -1,16 +1,16 @@
 using System.Net;
+using Cwiczenia11.Dtos;
 
 namespace Cwiczenia11.Middlewares;
+
 
 public class ErrorHandlingMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ErrorHandlingMiddleware> _logger;
 
-    public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
+    public ErrorHandlingMiddleware(RequestDelegate next)
     {
         _next = next;
-        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -19,29 +19,39 @@ public class ErrorHandlingMiddleware
         {
             await _next(context);
         }
+        catch (ArgumentException ex)
+        {
+            await HandleArgumentExceptionAsync(context, ex);
+        }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unhandled exception occurred");
-            await HandleExceptionAsync(context, ex);
+            await HandleGeneralExceptionAsync(context, ex);
         }
     }
 
-    private Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private Task HandleArgumentExceptionAsync(HttpContext context, Exception exception)
     {
-        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
         context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-        var response = new
+        return context.Response.WriteAsync(new ErrorDetailsDto
         {
-            error = new
-            {
-                message = "An error occurred while processing your request.",
-                detail = exception.Message
-            }
-        };
+            StatusCode = context.Response.StatusCode,
+            Message = "Error caused by incorrect arguments.",
+            ExceptionMessage = exception.Message
+        }.ToString());
+    }
 
-        var jsonResponse = System.Text.Json.JsonSerializer.Serialize(response);
+    private Task HandleGeneralExceptionAsync(HttpContext context, Exception exception)
+    {
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-        return context.Response.WriteAsync(jsonResponse);
+        return context.Response.WriteAsync(new ErrorDetailsDto
+        {
+            StatusCode = context.Response.StatusCode,
+            Message = "Internal Server Error from the custom middleware.",
+            ExceptionMessage = exception.Message
+        }.ToString());
     }
 }
